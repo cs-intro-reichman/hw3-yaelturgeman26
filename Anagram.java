@@ -7,6 +7,7 @@ public class Anagram {
 		System.out.println(isAnagram("Madam Curie","Radium came")); // true
 		System.out.println(isAnagram("Tom Marvolo Riddle","I am Lord Voldemort")); // true
 
+
 		// Tests the preProcess function.
 		System.out.println(preProcess("What? No way!!!"));
 		
@@ -28,22 +29,63 @@ public class Anagram {
 
 	// Returns true if the two given strings are anagrams, false otherwise.
 	public static boolean isAnagram(String str1, String str2) {
-		// Replace the following statement with your code
-		return false;
+		str1 = preProcess(str1).replace( " ", "");
+    	str2 = preProcess(str2).replace( " ", "");
+		for (int i = 0; i < str1.length(); i++) {
+			char c = str1.charAt(i);
+			int count1 = 0;
+			for (int j = 0; j < str1.length(); j++) {
+				if (str1.charAt(j) == c) {
+					count1++;
+				}
+			}
+			int count2 = 0;
+			for (int j = 0; j < str2.length(); j++) {
+				if (str2.charAt(j) == c) {
+					count2++;
+				}
+			}
+			if (count1 != count2) {
+				return false;
+			}
+		}
+		return true;
 	}
 	   
 	// Returns a preprocessed version of the given string: all the letter characters are converted
 	// to lower-case, and all the other characters are deleted, except for spaces, which are left
 	// as is. For example, the string "What? No way!" becomes "whatnoway"
 	public static String preProcess(String str) {
-		// Replace the following statement with your code
-		return "";
+		str = str.toLowerCase();
+		String abc = "abcdefghijklmnopqrstuvwxyz ";
+		String fixedStr = "";
+		int i = 0;
+		while(i < str.length())
+			{
+				char c = str.charAt(i);
+				if(abc.indexOf(c) !=-1){
+					fixedStr = fixedStr + c;
+				}
+				i++;
+
+			}
+		return fixedStr;
 	} 
 	   
 	// Returns a random anagram of the given string. The random anagram consists of the same
 	// characters as the given string, re-arranged in a random order. 
 	public static String randomAnagram(String str) {
-		// Replace the following statement with your code
-		return "";
+		String newstring = "";
+		while(!str.equals("")){
+			int randomIndex = (int)(Math.random() * str.length());
+			newstring = newstring + str.charAt(randomIndex);
+			if(randomIndex < str.length()-1){
+				str = str.substring(0, randomIndex) + str.substring(randomIndex + 1, str.length()); 
+			}
+			else {
+				str = str.substring(0, randomIndex);
+			}
+		}
+		return newstring;
 	}
 }
