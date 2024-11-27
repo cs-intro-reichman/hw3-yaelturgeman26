@@ -33,20 +33,53 @@ public class Algebra {
 	}
 	// Returns x1 - x2
 	public static int minus(int x1, int x2) {
+		if(x1>0 && x2<0){
+			while(x2 !=0){
+			x1--;
+			x2++;
+			}
+		}
+		else if(x1<0 && x2<0){
+			while(x2 !=0){
+				x1++;
+				x2++;
+			}
+		}
+
 		while(x2 != 0)
 		{
 			x1--;
 			x2--;
 		}
+
 		return x1;
 	}
 
 	// Returns x1 * x2
 	public static int times(int x1, int x2) {
 		int result = 0;
-		while (x2 != 0) {
-    		result = plus(result, x1);
-    		x2--;
+		if((x1<0) && (x2>0)){
+			for(int i =0; i<x2; i++){
+				result= plus(result,x1);
+			}
+		}
+		else if((x1>0) && (x2<0)){
+			for(int i = 0; i < x1; i++){
+				result= plus(result,x2);
+			}
+
+		}
+		else if(x1 > 0 && x2 > 0){
+			for(int i = 0; i < x2; i++){
+				result = plus(result, x1);
+			}
+		}
+		else if(x1 < 0 && x2 < 0){
+			x2= minus(0,x2);
+			x1= minus(0,x1);
+			for (int i = 0; i < x2; i++){
+				result = plus(result, x1);
+			}
 		}
 		return result;
 		
@@ -63,12 +96,26 @@ public class Algebra {
 
 	// Returns the integer part of x1 / x2 
 	public static int div(int x1, int x2) {
+		boolean isNegative = false;
+		if(x1 < 0 && x2 < 0){
+			x1 = minus(0, x1);
+			x2 = minus(0,x2);
+			}
+
+		else if(x1 < 0 && x2 > 0){
+			isNegative = true;
+			x1 = minus(0,x1);
+			}	
+		else if(x1 > 0 && x2 < 0){
+			isNegative= true;
+			x2= minus(0,x2);
+			}
 		int result = 0;
 		while (x1 >= x2) { 
 			x1 = minus(x1, x2);
 			result++; 
 		}
-		return result; 
+		return isNegative ? minus(0,result) : result; 
 	}
 
 	// Returns x1 % x2
@@ -77,7 +124,7 @@ public class Algebra {
 		while (x1 >= x2) {
 			result = div(x1,x2);
 			result= times(result,x2);
-			x1 = minus(x1, result); 
+			x1 = minus(x1,result); 
 		}
 		return x1; 
 	}	
@@ -85,9 +132,9 @@ public class Algebra {
 	// Returns the integer part of sqrt(x) 
 	public static int sqrt(int x) {
 		int result = 0;
-		while (times(result, result) <= x) { // בדוק אם ריבוע התוצאה קטן או שווה ל-x
+		while (times(result, result) <= x) { 
 			result++;
 		}
-		return minus(result, 1); // החזר את המספר האחרון שעדיין מתאים
+		return minus(result, 1); 
 	}	  	  
 }
